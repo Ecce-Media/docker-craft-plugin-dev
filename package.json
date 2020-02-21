@@ -1,0 +1,12 @@
+{
+  "name": "docker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "docker build -t ecceuk/craft-plugin-dev .",
+    "deploy": "docker push ecceuk/craft-plugin-dev"
+  },
+  "author": "",
+  "license": "ISC"
+}
