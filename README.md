@@ -8,13 +8,13 @@ This container is usually used in conjunction with [craft-plugin-bootstrap](http
 to quickly setup and run a craft environment using docker-compose linked up with a simple
 craft plugin.
 
-##Deploy latest version
+## Deploy latest version
 
 build tag with `latest` and push to docker hub
 
     make build
 
-##Deploy a specific version
+##  Deploy a specific version
 
 build tag with version and push to docker hub
 
