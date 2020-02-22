@@ -1,26 +1,28 @@
-FROM php:7.3-apache
-#volume
-VOLUME ["/root/.composer/cache"]
+ARG IMAGE="php:7.4-apache"
+FROM $IMAGE
 
 #add scripts
 COPY ./scripts /scripts
 RUN chmod +x /scripts/*.sh
 
 #server setup
-RUN /scripts/install-packages.sh
-RUN /scripts/install-apache.sh
-RUN /scripts/install-composer.sh
+RUN /scripts/install-packages.sh && \
+    /scripts/install-apache.sh && \
+    /scripts/install-composer.sh
+
+COPY .build /var/www
 
 #install craft
-RUN rm -vRf /var/www/* && composer -vvv create-project craftcms/craft /var/www ; exit 0
-RUN php /scripts/update-composer-json.php
-RUN composer clearcache
-RUN chmod a+rwx -R /var/www/config
-RUN chmod a+rwx -R /var/www/storage
-RUN chmod a+rwx -R /var/www/web/cpresources
+RUN chmod a+rwx -R /var/www/config && \
+    chmod a+rwx -R /var/www/storage && \
+    chmod a+rwx -R /var/www/web/cpresources && \
+    chmod a+rwx -R /var/www/.env && \
+    chmod a+rwx -R /var/www/composer.*
+
+#cleanup
+RUN mkdir /plugin && \
+    php /scripts/update-composer-json.php && \
+    rm -Rf /scripts
 
 EXPOSE 80
-
-#run
 WORKDIR /var/www
-CMD ["/scripts/run.sh"]
